@@ -17,6 +17,10 @@ public class CarController : MonoBehaviour
     public float overAllFitness;
     public float distanceMultiplier = 1.4f;   //these values influences which is more important
     public float avgSpeedMultiplier = 0.2f;
+    public float sensorMultiplier = 0.1f;
+
+    public float targetFitness = 1000;
+    public float dumbTime = 20;
 
     private Vector3 lastPosition;
     private float totalDistanceTravelled;
@@ -51,7 +55,29 @@ public class CarController : MonoBehaviour
         Reset();
     }
 
-    private void SetInputSensors()
+    private void CalculateFintess()
+    {
+        totalDistanceTravelled += Vector3.Distance(transform.position, lastPosition);
+        avgSpeed = totalDistanceTravelled / timerSinceStart;
+
+        overAllFitness = totalDistanceTravelled * distanceMultiplier
+            + avgSpeed * avgSpeedMultiplier
+            + (aSensor + bSensor + cSensor) / 3 * sensorMultiplier;
+    
+        //Check if network is bad, and reset
+        if (timerSinceStart > dumbTime && overAllFitness < 40)
+        {
+            Reset();
+        }
+
+        if (overAllFitness >= targetFitness)
+        {
+            //save network to json
+            Reset();
+        }
+    }
+
+    private void SetInputSensorsBySensing()
     {
         Vector3 a = (transform.forward + transform.right); //diagonal right. using this vector's direction, to create ray for raycast.
         Vector3 b = (transform.forward);
@@ -100,8 +126,17 @@ public class CarController : MonoBehaviour
 
     }
 
-    void Update()
+    void FixedUpdate()
     {
+        SetInputSensorsBySensing();
+        lastPosition = transform.position;
+        //neural net sets acceleration and turn
 
+        MoveCar(acceleration, turning);
+        timerSinceStart += Time.deltaTime;
+        CalculateFintess();
+        acceleration = 1;
+        turning = .2f;
+        Debug.Log(aSensor);
     }
 }
