@@ -34,7 +34,7 @@ public class NeuralNet : MonoBehaviour
 
         //adding the weight matriy between the input and first hidden layer
         weightsMatrixList.Add(Matrix<float>.Build.Dense(inputSize, hiddenLayerSize));
-        for ( int i= 0; i <= hiddenLayerSize; i++)
+        for ( int i= 1; i <= hiddenLayerSize; i++)
         {
             //Layers
             hiddenLayers.Add(Matrix<float>.Build.Dense(1, hiddenLayerSize));
@@ -66,6 +66,7 @@ public class NeuralNet : MonoBehaviour
 
     public (float,float) RunNetwork (float a, float b, float c)
     {
+        //need to generalize for any input size
         inputlayer[0, 0] = a;
         inputlayer[0, 1] = b;
         inputlayer[0, 2] = c;

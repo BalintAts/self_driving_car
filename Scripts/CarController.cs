@@ -5,6 +5,12 @@ using UnityEngine;
 public class CarController : MonoBehaviour
 {
     #region  //properties
+    private NeuralNet net;
+
+    [Header("Neural network options")]
+    public int HIDDENLAYERS = 1;
+    public int HIDDENLAYERSIZE = 10;
+
     private Vector3 input;
     private Vector3 startPosition, startRotation;
 
@@ -13,7 +19,7 @@ public class CarController : MonoBehaviour
     private float tweekMaxTrunging = 90;   //in degrees
     public float timerSinceStart;
 
-    //score based on distance travelled, and avaragy speed
+    //score based on distance travelled, and avarage speed
     [Header("Fitness")]
     public float overAllFitness;
     public float distanceMultiplier = 1.4f;   //these values influences which is more important
@@ -37,6 +43,8 @@ public class CarController : MonoBehaviour
     {
         startPosition = transform.position;
         startRotation = transform.eulerAngles;
+        net = new NeuralNet(3,2,HIDDENLAYERS,HIDDENLAYERSIZE);
+       
     }
 
     public void Reset()
@@ -140,6 +148,8 @@ public class CarController : MonoBehaviour
         SetInputSensorsBySensing();
         lastPosition = transform.position;
         //neural net sets acceleration and turn
+
+        (acceleration, turning) = net.RunNetwork(aSensor, bSensor, cSensor);  //need to generalize the arguments for any size of input 
 
         MoveCar(acceleration, turning);
         timerSinceStart += Time.deltaTime;
