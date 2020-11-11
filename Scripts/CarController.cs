@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class CarController : MonoBehaviour
 {
+    #region  //properties
     private Vector3 input;
     private Vector3 startPosition, startRotation;
 
@@ -30,6 +31,7 @@ public class CarController : MonoBehaviour
 
     float tweekingA = 11.4f;
     float tweekingB = 0.02f;
+    #endregion
 
     private void Awake()
     {
