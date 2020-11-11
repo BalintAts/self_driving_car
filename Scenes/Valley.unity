@@ -218,7 +218,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fb2033274a1dac14698716e499683e52, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  acceleration: 0.417
+  acceleration: 1
   turning: -0.168
   timerSinceStart: 0
   overAllFitness: 0

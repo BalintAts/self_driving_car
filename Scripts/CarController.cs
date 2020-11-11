@@ -48,7 +48,6 @@ public class CarController : MonoBehaviour
         transform.eulerAngles = startRotation;
     }
 
-    //car hits wall
     private void OnCollisionEnter(Collision collision)
      
     {
@@ -90,20 +89,28 @@ public class CarController : MonoBehaviour
         {
             float reduction = 20f; //makes sure that raycast distances are low numbers, where the sigmoid function is the most teresting.
             aSensor = hit.distance / reduction;
+            Debug.DrawLine(r.origin, hit.point, Color.red);
+            Debug.Log("A hit");
+
         }
 
         r.direction = b;
         if (Physics.Raycast(r, out hit))
         {
-            float reduction = 20f; //makes sure that raycast distances are low numbers, where the sigmoid function is the most teresting.
+            float reduction = 20f; 
             bSensor = hit.distance / reduction;
+            Debug.DrawLine(r.origin, hit.point, Color.red);
+            Debug.Log("B hit");
+
         }
 
         r.direction = c;
         if (Physics.Raycast(r, out hit))
         {
-            float reduction = 20f; //makes sure that raycast distances are low numbers, where the sigmoid function is the most teresting.
+            float reduction = 20f; 
             cSensor = hit.distance / reduction;
+            Debug.DrawLine(r.origin, hit.point, Color.red);
+            Debug.Log("C hit");
         }
 
         //List<Ray> rays = new List<Ray>()
@@ -137,6 +144,6 @@ public class CarController : MonoBehaviour
         CalculateFintess();
         acceleration = 1;
         turning = .2f;
-        Debug.Log(aSensor);
+        //Debug.Log(aSensor);
     }
 }
