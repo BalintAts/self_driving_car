@@ -43,12 +43,20 @@ public class CarController : MonoBehaviour
     {
         startPosition = transform.position;
         startRotation = transform.eulerAngles;
-        net = new NeuralNet(3,2,HIDDENLAYERS,HIDDENLAYERSIZE);
+        //net = new NeuralNet(3,2,HIDDENLAYERS,HIDDENLAYERSIZE);  
        
+    }
+
+    public void ResetWithNetwork(NeuralNet neuralNet)
+    {
+        net = neuralNet;
+        Reset();
     }
 
     public void Reset()
     {
+        //net = new NeuralNet(3, 2, HIDDENLAYERS, HIDDENLAYERSIZE);
+
         timerSinceStart = 0f;
         totalDistanceTravelled = 0f;
         avgSpeed = 0f;
@@ -100,7 +108,6 @@ public class CarController : MonoBehaviour
             float reduction = 20f; //makes sure that raycast distances are low numbers, where the sigmoid function is the most teresting.
             aSensor = hit.distance / reduction;
             Debug.DrawLine(r.origin, hit.point, Color.red);
-            Debug.Log("A hit");
 
         }
 
@@ -110,7 +117,6 @@ public class CarController : MonoBehaviour
             float reduction = 20f; 
             bSensor = hit.distance / reduction;
             Debug.DrawLine(r.origin, hit.point, Color.red);
-            Debug.Log("B hit");
 
         }
 
@@ -120,7 +126,6 @@ public class CarController : MonoBehaviour
             float reduction = 20f; 
             cSensor = hit.distance / reduction;
             Debug.DrawLine(r.origin, hit.point, Color.red);
-            Debug.Log("C hit");
         }
 
         //List<Ray> rays = new List<Ray>()
@@ -154,8 +159,7 @@ public class CarController : MonoBehaviour
         MoveCar(acceleration, turning);
         timerSinceStart += Time.deltaTime;
         CalculateFintess();
-        acceleration = 1;
-        turning = .2f;
+        Debug.Log("turning: " + turning);
         //Debug.Log(aSensor);
     }
 }
