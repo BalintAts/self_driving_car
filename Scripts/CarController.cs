@@ -6,6 +6,7 @@ public class CarController : MonoBehaviour
 {
     #region  //properties
     private NeuralNet net;
+    private GeneticController geneticController;
 
     [Header("Neural network options")]
     public int HIDDENLAYERS = 1;
@@ -43,8 +44,9 @@ public class CarController : MonoBehaviour
     {
         startPosition = transform.position;
         startRotation = transform.eulerAngles;
+        geneticController = GameObject.FindObjectOfType<GeneticController>();
         //net = new NeuralNet(3,2,HIDDENLAYERS,HIDDENLAYERSIZE);  
-       
+
     }
 
     public void ResetWithNetwork(NeuralNet neuralNet)
@@ -69,7 +71,8 @@ public class CarController : MonoBehaviour
     private void OnCollisionEnter(Collision collision)
      
     {
-        Reset();
+        //Reset();
+        Death();
     }
 
     private void CalculateFintess()
@@ -84,13 +87,12 @@ public class CarController : MonoBehaviour
         //Check if network is bad, and reset
         if (timerSinceStart > dumbTime && overAllFitness < 40)
         {
-            Reset();
+            Death();  //kill stupid but ambitious cars
         }
-
         if (overAllFitness >= targetFitness)
         {
             //save network to json
-            Reset();
+            Death(); //car is too good
         }
     }
 
@@ -146,6 +148,11 @@ public class CarController : MonoBehaviour
         transform.position += input;
         transform.eulerAngles += new Vector3(0, steering * tweekMaxTrunging * 0.02f, 0);
 
+    }
+
+    private void Death()
+    {
+        geneticController.Death(overAllFitness, net);
     }
 
     void FixedUpdate()
