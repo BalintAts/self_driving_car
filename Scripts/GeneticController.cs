@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using MathNet.Numerics.LinearAlgebra;
 using System.Linq;
+using UnityEditor;
 
 public class GeneticController : MonoBehaviour
 {
@@ -17,9 +18,9 @@ public class GeneticController : MonoBehaviour
     public int numberOfWorstAgentToSelect = 3;
     public int numberToCrossover;
 
-    private List<int> genePool = new List<int>();
+    private List<int> genePool = new List<int>()  //indices of networks to crossover
 
-    private int naturallySelected;
+    private int naturallySelectedIndex;
 
     //array of neural nets
     private NeuralNet[] population;
@@ -73,12 +74,42 @@ public class GeneticController : MonoBehaviour
     {
         genePool.Clear();
         currentGenerationIndex++;
-        naturallySelected = 0;
-        
+        naturallySelectedIndex = 0;
+        population = population.OrderBy(o => o.fitness).ToArray();
+        NeuralNet[] newPopulation = PickBestsAndWorstsFromPopulation();
     }
 
-    private NeuralNet[] SortPopulation()
+    private NeuralNet[] PickBestsAndWorstsFromPopulation()
     {
-        return population.OrderBy(o => o.fitness).ToArray();
+        //NeuralNet a = new NeuralNet(3, 2, 5, 5);
+        //NeuralNet b = a.DeepClone();
+
+        NeuralNet[] newPopulation = new NeuralNet[initialPopulationSize];
+
+
+        //select the best ones, and add them some times, depending on how good it is
+        for (int i = 0; i < numberOfBestAgentToSelect; i++)
+        {
+            newPopulation[naturallySelectedIndex] = population[i].DeepClone();
+            newPopulation[naturallySelectedIndex].fitness = 0;
+            naturallySelectedIndex++;
+            int f = Mathf.RoundToInt(population[i].fitness * 10);   //this is a factor which depends how good is hte network. If it is better, it will be given to the genepool more times
+            for (int c = 0; c < f; c++)
+            {
+                genePool.Add(i);
+            }        
+        }
+
+        for (int i = 0; i < numberOfWorstAgentToSelect; i++)
+        {
+            int last = population.Length - i;
+            int f = Mathf.RoundToInt(population[last].fitness * 10);   //this is a factor which depends how good is hte network. If it is better, it will be given to the genepool more times
+            for (int c = 0; c < f; c++)
+            {
+                genePool.Add(last);
+            }
+
+        }
+        return newPopulation;
     }
 }

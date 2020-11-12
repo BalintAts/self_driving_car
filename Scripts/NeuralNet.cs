@@ -5,6 +5,7 @@ using MathNet.Numerics.LinearAlgebra;
 using System;
 using Random = UnityEngine.Random;
 
+[Serializable]
 public class NeuralNet : MonoBehaviour
 {
     #region properties
