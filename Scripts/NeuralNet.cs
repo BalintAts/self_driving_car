@@ -32,6 +32,7 @@ public class NeuralNet : MonoBehaviour
         weightsMatrixList.Clear();
         hiddenLayers.Clear();
         biases.Clear();
+        fitness = 0;
 
         //adding the weight matriy between the input and first hidden layer
         weightsMatrixList.Add(Matrix<float>.Build.Dense(inputSize, hiddenLayerSize));

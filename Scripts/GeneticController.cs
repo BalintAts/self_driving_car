@@ -18,7 +18,7 @@ public class GeneticController : MonoBehaviour
     public int numberOfWorstAgentToSelect = 3;
     public int numberToCrossover;
 
-    private List<int> genePool = new List<int>()  //indices of networks to crossover
+    private List<int> genePool = new List<int>();  //indices of networks to crossover
 
     private int naturallySelectedIndex;
 
@@ -77,6 +77,11 @@ public class GeneticController : MonoBehaviour
         naturallySelectedIndex = 0;
         population = population.OrderBy(o => o.fitness).ToArray();
         NeuralNet[] newPopulation = PickBestsAndWorstsFromPopulation();
+
+        //
+        Crossover(newPopulation);
+        Mutate(something);
+    
     }
 
     private NeuralNet[] PickBestsAndWorstsFromPopulation()
@@ -111,5 +116,21 @@ public class GeneticController : MonoBehaviour
 
         }
         return newPopulation;
+    }
+
+    private void Crossover(NeuralNet[] newPopulation)
+    {
+        for (int i = 0; i < numberToCrossover; i+= 2)
+        {
+            NeuralNet Child1 = new NeuralNet(3, 2, carController.HIDDENLAYERS, carController.HIDDENLAYERSIZE); //TODO create fields for iput, output vector size
+            NeuralNet Child2 = new NeuralNet(3, 2, carController.HIDDENLAYERS, carController.HIDDENLAYERSIZE); 
+
+
+        }
+    }
+
+    private void Mutate()
+    {
+
     }
 }
