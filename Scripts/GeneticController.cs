@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using MathNet.Numerics.LinearAlgebra;
+using System.Linq;
 
 public class GeneticController : MonoBehaviour
 {
@@ -64,7 +65,20 @@ public class GeneticController : MonoBehaviour
         }
         else
         {
-            //repopulate
+            Repopulate();
         }
+    }
+
+    public void Repopulate()
+    {
+        genePool.Clear();
+        currentGenerationIndex++;
+        naturallySelected = 0;
+        
+    }
+
+    private NeuralNet[] SortPopulation()
+    {
+        return population.OrderBy(o => o.fitness).ToArray();
     }
 }
