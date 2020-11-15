@@ -5,7 +5,7 @@ using UnityEngine;
 public class CarController : MonoBehaviour
 {
     #region  //properties
-    private NeuralNet net;
+    public NeuralNet net;
     private GeneticController geneticController;
 
     [Header("Neural network options")]
@@ -40,33 +40,34 @@ public class CarController : MonoBehaviour
     float tweekingB = 0.02f;
     #endregion
 
+    public int id;
+
     private void Awake()
     {
         startPosition = transform.position;
         startRotation = transform.eulerAngles;
         geneticController = GameObject.FindObjectOfType<GeneticController>();
-        net = new NeuralNet(3,2,HIDDENLAYERS,HIDDENLAYERSIZE);  
 
     }
 
-    public void ResetWithNetwork(NeuralNet neuralNet)
-    {
-        net = neuralNet;
-        Reset();
-    }
+    //public void ResetWithNetwork(NeuralNet neuralNet)
+    //{
+    //    net = neuralNet;
+    //    Reset();
+    //}
 
-    public void Reset()
-    {
-        //net = new NeuralNet(3, 2, HIDDENLAYERS, HIDDENLAYERSIZE);
+    //public void Reset()
+    //{
+    //    //net = new NeuralNet(3, 2, HIDDENLAYERS, HIDDENLAYERSIZE);
 
-        timerSinceStart = 0f;
-        totalDistanceTravelled = 0f;
-        avgSpeed = 0f;
-        lastPosition = startPosition;
-        overAllFitness = 0f;
-        transform.position = startPosition;
-        transform.eulerAngles = startRotation;
-    }
+    //    timerSinceStart = 0f;
+    //    totalDistanceTravelled = 0f;
+    //    avgSpeed = 0f;
+    //    lastPosition = startPosition;
+    //    overAllFitness = 0f;
+    //    transform.position = startPosition;
+    //    transform.eulerAngles = startRotation;
+    //}
 
     private void OnCollisionEnter(Collision collision)
      
@@ -152,7 +153,8 @@ public class CarController : MonoBehaviour
 
     private void Death()
     {
-        geneticController.Death(overAllFitness, net);
+        geneticController.Death(overAllFitness, id);
+        Destroy(gameObject);
     }
 
     void FixedUpdate()
@@ -161,12 +163,13 @@ public class CarController : MonoBehaviour
         lastPosition = transform.position;
         //neural net sets acceleration and turn
 
-        (acceleration, turning) = net.RunNetwork(aSensor, bSensor, cSensor);  //need to generalize the arguments for any size of input 
-
+        if (net != null)
+        {
+            (acceleration, turning) = net.RunNetwork(aSensor, bSensor, cSensor);  //need to generalize the arguments for any size of input 
+        }
         MoveCar(acceleration, turning);
         timerSinceStart += Time.deltaTime;
         CalculateFintess();
-        Debug.Log("turning: " + turning);
-        //Debug.Log(aSensor);
+        Debug.Log("id: " + id);
     }
 }
