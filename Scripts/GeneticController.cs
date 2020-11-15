@@ -18,7 +18,7 @@ public class GeneticController : MonoBehaviour
     [Range(0f, 1f)]
     public float mutationRate = 0.05f;
     [Header("Crossover Controls")]
-    public int numberOfBestAgentToSelect = 8;
+    public int numberOfBestAgentToSelect = 3;
 
 
 
@@ -75,8 +75,15 @@ public class GeneticController : MonoBehaviour
         //Mutate(something); instead of mutate, we give some retard among the parents
         for (int i = 0; i < numberOfRetards; i++)
         {
-            population[populationSize - i] = new NeuralNet(3, 2, carController.HIDDENLAYERS, carController.HIDDENLAYERSIZE);   // add retards
-        }   
+            population[populationSize - i-1] = new NeuralNet(3, 2, carController.HIDDENLAYERS, carController.HIDDENLAYERSIZE);   // add retards
+        }
+        for (int i = 0; i < populationSize; i++)
+        {
+            GameObject newCar = Instantiate(car, spawner.transform.position, spawner.transform.rotation);
+            newCar.GetComponent<CarController>().net = population[i];
+            newCar.GetComponent<CarController>().id = i;
+        }
+
     }
 
 
@@ -88,8 +95,11 @@ public class GeneticController : MonoBehaviour
             NeuralNet Child = new NeuralNet(3, 2, carController.HIDDENLAYERS, carController.HIDDENLAYERSIZE); //TODO create fields for iput, output vector size
             for (int w = 0; w < Child.weightsMatrixList.Count; w++)
             {
-                int choosedWeightMatrixAndBiasIndex = populationSize - Random.Range(0, numberOfBestAgentToSelect); //choosing the best of the ordered population array
-                Child.weightsMatrixList[w] = population[choosedWeightMatrixAndBiasIndex].weightsMatrixList[w];
+                int choosedWeightMatrixAndBiasIndex = populationSize - Random.Range(0, numberOfBestAgentToSelect) - 1; //choosing the best of the ordered population array
+                Debug.Log("population length " + population.Length);
+                Debug.Log("choose " + choosedWeightMatrixAndBiasIndex);
+                NeuralNet chosedNetToSwapAMatrix = population[choosedWeightMatrixAndBiasIndex];
+                Child.weightsMatrixList[w] = chosedNetToSwapAMatrix.weightsMatrixList[w];
                 //we can use the same index for bias becouse one of the 2 layers of the matrices have that bias
                 //but we need one less bias
                 if (w < Child.biases.Count)

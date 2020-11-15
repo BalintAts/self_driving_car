@@ -170,6 +170,7 @@ public class CarController : MonoBehaviour
         MoveCar(acceleration, turning);
         timerSinceStart += Time.deltaTime;
         CalculateFintess();
-        Debug.Log("id: " + id);
+        //Debug.Log("id: " + id);
+        
     }
 }
