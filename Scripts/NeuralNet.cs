@@ -6,7 +6,7 @@ using System;
 using Random = UnityEngine.Random;
 
 [Serializable]
-public class NeuralNet : MonoBehaviour
+public class NeuralNet 
 {
     #region properties
     public Matrix<float> inputlayer; 

@@ -45,7 +45,7 @@ public class CarController : MonoBehaviour
         startPosition = transform.position;
         startRotation = transform.eulerAngles;
         geneticController = GameObject.FindObjectOfType<GeneticController>();
-        //net = new NeuralNet(3,2,HIDDENLAYERS,HIDDENLAYERSIZE);  
+        net = new NeuralNet(3,2,HIDDENLAYERS,HIDDENLAYERSIZE);  
 
     }
 
