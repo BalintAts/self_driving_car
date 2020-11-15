@@ -9,7 +9,7 @@ public class CarController : MonoBehaviour
     private GeneticController geneticController;
 
     [Header("Neural network options")]
-    public int HIDDENLAYERS = 1;
+    public int HIDDENLAYERS = 10;
     public int HIDDENLAYERSIZE = 10;
 
     private Vector3 input;
@@ -50,29 +50,9 @@ public class CarController : MonoBehaviour
 
     }
 
-    //public void ResetWithNetwork(NeuralNet neuralNet)
-    //{
-    //    net = neuralNet;
-    //    Reset();
-    //}
-
-    //public void Reset()
-    //{
-    //    //net = new NeuralNet(3, 2, HIDDENLAYERS, HIDDENLAYERSIZE);
-
-    //    timerSinceStart = 0f;
-    //    totalDistanceTravelled = 0f;
-    //    avgSpeed = 0f;
-    //    lastPosition = startPosition;
-    //    overAllFitness = 0f;
-    //    transform.position = startPosition;
-    //    transform.eulerAngles = startRotation;
-    //}
-
     private void OnCollisionEnter(Collision collision)
      
     {
-        //Reset();
         Death();
     }
 

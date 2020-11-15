@@ -10,8 +10,8 @@ public class GeneticController : MonoBehaviour
     public GameObject car;
     [Header("References")]
     public GameObject spawner;
-    [Header("References")]
-    public CarController carController;
+    //[Header("References")]
+    //public CarController carController;
     [Header("Controls")]
     public int populationSize = 10;
     public int numberOfRetards = 1;  //instead of mutation, we add some retard among the parents
@@ -21,19 +21,15 @@ public class GeneticController : MonoBehaviour
     public int numberOfBestAgentToSelect = 3;
 
 
-
-    private int naturallySelectedIndex;
-
-    //array of neural nets
     private NeuralNet[] population;
 
     [Header("Public View")]
     public int currentGenerationIndex;
-    public int currentGenomeIndex;
+    public int currentGenomeIndex  = 0;
 
     private void Start()
     {
-        carController = car.GetComponent<CarController>();
+        //carController = car.GetComponent<CarController>();
         CreatePopulation();
     }
     private void CreatePopulation()
@@ -41,41 +37,41 @@ public class GeneticController : MonoBehaviour
         population = new NeuralNet[populationSize];
         for (int i = 0; i < populationSize; i++)
         {
-            NeuralNet newNet = new NeuralNet(3, 2, carController.HIDDENLAYERS, carController.HIDDENLAYERSIZE);
+            NeuralNet newNet = new NeuralNet(3, 2, 10, 10);
             population[i] = newNet;
             GameObject newCar = Instantiate(car, spawner.transform.position , spawner.transform.rotation);
             newCar.GetComponent<CarController>().net = newNet;
             newCar.GetComponent<CarController>().id = i;
         }
     }
-
-
-
     
     public void Death(float fitness,  int index)
     {
+        Debug.Log(currentGenomeIndex);
+        Debug.Log("death");
         if (currentGenomeIndex < population.Length - 1)
         {
             population[index].fitness = fitness;
             currentGenomeIndex++;
-            //ResetToCurrentGenome();
+            
         }
         else
         {
+            currentGenomeIndex = 0;
             Repopulate();
         }
     }
 
     public void Repopulate()
     {
+        Debug.Log("repopulate");
         currentGenerationIndex++;
-        naturallySelectedIndex = 0;
         population = population.OrderBy(o => o.fitness).ToArray();
         Crossover();
         //Mutate(something); instead of mutate, we give some retard among the parents
         for (int i = 0; i < numberOfRetards; i++)
         {
-            population[populationSize - i-1] = new NeuralNet(3, 2, carController.HIDDENLAYERS, carController.HIDDENLAYERSIZE);   // add retards
+            population[populationSize - i-1] = new NeuralNet(3, 2, 10, 10);   // add retards
         }
         for (int i = 0; i < populationSize; i++)
         {
@@ -92,12 +88,10 @@ public class GeneticController : MonoBehaviour
         NeuralNet[] newPopulation = new NeuralNet[populationSize];
         for (int i = 0; i < populationSize - numberOfRetards; i++)
         {
-            NeuralNet Child = new NeuralNet(3, 2, carController.HIDDENLAYERS, carController.HIDDENLAYERSIZE); //TODO create fields for iput, output vector size
+            NeuralNet Child = new NeuralNet(3, 2, 10, 10); //TODO create fields for iput, output vector size
             for (int w = 0; w < Child.weightsMatrixList.Count; w++)
             {
                 int choosedWeightMatrixAndBiasIndex = populationSize - Random.Range(0, numberOfBestAgentToSelect) - 1; //choosing the best of the ordered population array
-                Debug.Log("population length " + population.Length);
-                Debug.Log("choose " + choosedWeightMatrixAndBiasIndex);
                 NeuralNet chosedNetToSwapAMatrix = population[choosedWeightMatrixAndBiasIndex];
                 Child.weightsMatrixList[w] = chosedNetToSwapAMatrix.weightsMatrixList[w];
                 //we can use the same index for bias becouse one of the 2 layers of the matrices have that bias
