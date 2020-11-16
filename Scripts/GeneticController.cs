@@ -4,6 +4,7 @@ using UnityEngine;
 using MathNet.Numerics.LinearAlgebra;
 using System.Linq;
 using UnityEditor;
+using System;
 
 public class GeneticController : MonoBehaviour
 {
@@ -47,8 +48,7 @@ public class GeneticController : MonoBehaviour
     
     public void Death(float fitness,  int index)
     {
-        Debug.Log(currentGenomeIndex);
-        Debug.Log("death");
+
         if (currentGenomeIndex < population.Length - 1)
         {
             population[index].fitness = fitness;
@@ -67,6 +67,7 @@ public class GeneticController : MonoBehaviour
         Debug.Log("repopulate");
         currentGenerationIndex++;
         population = population.OrderBy(o => o.fitness).ToArray();
+        Debug.Log(population[population.Length - 1].fitness);
         Crossover();
         //Mutate(something); instead of mutate, we give some retard among the parents
         for (int i = 0; i < numberOfRetards; i++)
@@ -91,7 +92,7 @@ public class GeneticController : MonoBehaviour
             NeuralNet Child = new NeuralNet(3, 2, 10, 10); //TODO create fields for iput, output vector size
             for (int w = 0; w < Child.weightsMatrixList.Count; w++)
             {
-                int choosedWeightMatrixAndBiasIndex = populationSize - Random.Range(0, numberOfBestAgentToSelect) - 1; //choosing the best of the ordered population array
+                int choosedWeightMatrixAndBiasIndex = populationSize - UnityEngine.Random.Range(0, numberOfBestAgentToSelect) - 1; //choosing the best of the ordered population array
                 NeuralNet chosedNetToSwapAMatrix = population[choosedWeightMatrixAndBiasIndex];
                 Child.weightsMatrixList[w] = chosedNetToSwapAMatrix.weightsMatrixList[w];
                 //we can use the same index for bias becouse one of the 2 layers of the matrices have that bias
