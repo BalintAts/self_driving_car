@@ -9,8 +9,8 @@ public class CarController : MonoBehaviour
     private GeneticController geneticController;
 
     [Header("Neural network options")]
-    public int HIDDENLAYERS = 10;
-    public int HIDDENLAYERSIZE = 10;
+    public static int HIDDENLAYERS = 1;
+    public static int HIDDENLAYERSIZE = 10;
 
     private Vector3 input;
     private Vector3 startPosition, startRotation;
@@ -35,6 +35,12 @@ public class CarController : MonoBehaviour
     private float avgSpeed;
 
     private float aSensor, bSensor, cSensor; //raycast distance values.
+    //TOdo: create a list, instead of multiple different sensors
+    public static int numberOfSensos = 3;
+    public float[] sensors;
+
+    public static int numberOfOutput = 2;
+    private float[] outPut; //Todo : Use this
 
     float tweekingA = 11.4f;
     float tweekingB = 0.02f;
@@ -43,17 +49,22 @@ public class CarController : MonoBehaviour
     public int id;
 
     public GameObject explosionEffect;
+    
+    public CarController()
+    {
+        Debug.Log("carcontroller constructor");
+    }
 
     private void Awake()
     {
         startPosition = transform.position;
         startRotation = transform.eulerAngles;
         geneticController = GameObject.FindObjectOfType<GeneticController>();
+        sensors = new float[3];
 
     }
 
-    private void OnCollisionEnter(Collision collision)
-     
+    private void OnCollisionEnter(Collision collision)     
     {
         Death();
     }
@@ -91,25 +102,23 @@ public class CarController : MonoBehaviour
         if (Physics.Raycast(r, out hit))
         {
             float reduction = 20f; //makes sure that raycast distances are low numbers, where the sigmoid function is the most teresting.
-            aSensor = hit.distance / reduction;
+            //aSensor = hit.distance / reduction;
+            sensors[0] = hit.distance / reduction;
             Debug.DrawLine(r.origin, hit.point, Color.red);
-
         }
-
         r.direction = b;
         if (Physics.Raycast(r, out hit))
         {
-            float reduction = 20f; 
-            bSensor = hit.distance / reduction;
+            float reduction = 20f;
+            sensors[1] = hit.distance / reduction;
             Debug.DrawLine(r.origin, hit.point, Color.red);
 
         }
-
         r.direction = c;
         if (Physics.Raycast(r, out hit))
         {
-            float reduction = 20f; 
-            cSensor = hit.distance / reduction;
+            float reduction = 20f;
+            sensors[2] = hit.distance / reduction;
             Debug.DrawLine(r.origin, hit.point, Color.red);
         }
 
@@ -148,12 +157,16 @@ public class CarController : MonoBehaviour
 
         if (net != null)
         {
-            (acceleration, turning) = net.RunNetwork(aSensor, bSensor, cSensor);  //need to generalize the arguments for any size of input 
+            (acceleration, turning) = net.RunNetwork(sensors);  //need to generalize the arguments for any size of input 
         }
         MoveCar(acceleration, turning);
         timerSinceStart += Time.deltaTime;
         CalculateFintess();
-        //Debug.Log("id: " + id);
+        //if (timerSinceStart < 3 && overAllFitness < 100)
+        //{
+        //    Death();
+        //}
+        Debug.Log("overallFitness " + overAllFitness);
         
     }
 

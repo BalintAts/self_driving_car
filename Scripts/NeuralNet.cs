@@ -66,12 +66,12 @@ public class NeuralNet
         }
     }
 
-    public (float,float) RunNetwork (float a, float b, float c)
+    public (float,float) RunNetwork (float[] sensors)
     {
         //need to generalize for any input size
-        inputlayer[0, 0] = a;
-        inputlayer[0, 1] = b;
-        inputlayer[0, 2] = c;
+        inputlayer[0, 0] = sensors[0];
+        inputlayer[0, 1] = sensors[1];
+        inputlayer[0, 2] = sensors[2];
 
         inputlayer.PointwiseTanh(); //similar like the sigmoid function, but the output range is -1, 1,  not 0, 1 .
 
