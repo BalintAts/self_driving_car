@@ -27,12 +27,12 @@ public class GeneticController : MonoBehaviour
 
     [Header("Public View")]
     public int currentGenerationIndex;
-    public int currentGenomeIndex  = 0;
+    public int numberofMatricesToSwap = 1;
+    private int currentGenomeIndex  = 0;
 
     private void Start()
     {
         //carController = car.GetComponent<CarController>();
-        carController = new CarController();
         Debug.Log(carController);
         CreatePopulation();
     }
@@ -65,12 +65,11 @@ public class GeneticController : MonoBehaviour
         }
     }
 
-    public void Repopulate()
+    private void Repopulate()
     {
         Debug.Log("repopulate");
         currentGenerationIndex++;
         population = population.OrderBy(o => o.fitness).ToArray();
-        //Debug.Log(population[population.Length - 1].fitness);
         Crossover();
         //Mutate(something); instead of mutate, we give some retard among the parents
         for (int i = 0; i < numberOfRetards; i++)
@@ -83,9 +82,7 @@ public class GeneticController : MonoBehaviour
             newCar.GetComponent<CarController>().net = population[i];
             newCar.GetComponent<CarController>().id = i;
         }
-
     }
-
 
     private void Crossover()
     {
@@ -93,7 +90,7 @@ public class GeneticController : MonoBehaviour
         for (int i = 0; i < populationSize - numberOfRetards; i++)
         {
             NeuralNet Child = new NeuralNet(CarController.numberOfSensos, CarController.numberOfOutput, CarController.NUMBEROFHIDDENLAYERS, CarController.HIDDENLAYERSIZE); 
-            for (int w = 0; w < Child.weightsMatrixList.Count; w++)
+            for (int w = numberofMatricesToSwap; w < Child.weightsMatrixList.Count; w++)
             {
                 int choosedWeightMatrixAndBiasIndex = populationSize - UnityEngine.Random.Range(0, numberOfBestAgentToSelect) - 1; //choosing the best of the ordered population array
                 NeuralNet chosedNetToSwapAMatrix = population[choosedWeightMatrixAndBiasIndex];

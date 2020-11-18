@@ -10,26 +10,26 @@ public class CarController : MonoBehaviour
     private GeneticController geneticController;
 
     [Header("Neural network options")]
-    public static int NUMBEROFHIDDENLAYERS = 1;
+    public static int NUMBEROFHIDDENLAYERS = 5;
     public static int HIDDENLAYERSIZE = 10;
 
     private Vector3 input;
     private Vector3 startPosition, startRotation;
 
     [Range(-1f, 1f)]
-    public float acceleration, turning;
+    private float acceleration, turning;
     private float tweekMaxTrunging = 90;   //in degrees
-    public float timerSinceStart;
+    private float timerSinceStart;
 
     //score based on distance travelled, and avarage speed
     [Header("Fitness")]
-    public float overAllFitness;
-    public float distanceMultiplier = 1.4f;   //these values influences which is more important
-    public float avgSpeedMultiplier = 0.2f;
-    public float sensorMultiplier = 0.1f;
+    private float overAllFitness;
+    private float distanceMultiplier = 1.4f;   //these values influences which is more important
+    private float avgSpeedMultiplier = 0.2f;
+    private float sensorMultiplier = 0.1f;
 
-    public float targetFitness = 1000;
-    public float dumbTime = 10;
+    private float targetFitness = 1000;
+    private float dumbTime = 10;
 
     private Vector3 lastPosition;
     private float totalDistanceTravelled;
@@ -38,7 +38,7 @@ public class CarController : MonoBehaviour
     private float aSensor, bSensor, cSensor; //raycast distance values.
     //TOdo: create a list, instead of multiple different sensors
     public static int numberOfSensos = 3;
-    public float[] sensors;
+    private float[] sensors;
 
     public static int numberOfOutput = 2;
     private float[] outPut; //Todo : Use this
@@ -50,11 +50,6 @@ public class CarController : MonoBehaviour
     public int id;
 
     public GameObject explosionEffect;
-    
-    public CarController()
-    {
-        Debug.Log("carcontroller constructor");
-    }
 
     private void Awake()
     {
@@ -76,7 +71,7 @@ public class CarController : MonoBehaviour
         avgSpeed = totalDistanceTravelled / timerSinceStart;
 
         overAllFitness = totalDistanceTravelled * distanceMultiplier
-            + avgSpeed * avgSpeedMultiplier
+            //+ avgSpeed * avgSpeedMultiplier
             + sensors.Sum() / 3 * sensorMultiplier;
     
         //Check if network is bad, and reset
@@ -122,18 +117,9 @@ public class CarController : MonoBehaviour
             sensors[2] = hit.distance / reduction;
             Debug.DrawLine(r.origin, hit.point, Color.red);
         }
-
-        //List<Ray> rays = new List<Ray>()
-        //{
-        //    new Ray(transform.position, transform.forward + transform.right ),
-        //    new Ray(transform.position, transform.forward),
-        //    new Ray(transform.position, transform.forward - transform.right )
-        //};
-
-        //List<float> sensors = List<float>(){ }
     }
 
-    public void MoveCar (float throttle, float steering)
+    private void MoveCar (float throttle, float steering)
     {
         input = Vector3.Lerp(Vector3.zero, new Vector3(0, 0, throttle * tweekingA), tweekingB);
         //converting input to local space
@@ -163,7 +149,7 @@ public class CarController : MonoBehaviour
         MoveCar(acceleration, turning);
         timerSinceStart += Time.deltaTime;
         CalculateFintess();
-        //if (timerSinceStart < 3 && overAllFitness < 100)
+        //if (timerSinceStart > 5 && overAllFitness < 30)
         //{
         //    Death();
         //}
@@ -171,7 +157,7 @@ public class CarController : MonoBehaviour
         
     }
 
-    public void Explode()
+    private void Explode()
     {
         Instantiate(explosionEffect, transform.position, transform.rotation);
     }

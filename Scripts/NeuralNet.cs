@@ -25,7 +25,7 @@ public class NeuralNet
     }
 
     //initializes weights and biases
-    public void Initialize(int inputSize, int outputSize,  int hiddenLayerCount, int hiddenLayerSize)
+    private void Initialize(int inputSize, int outputSize,  int hiddenLayerCount, int hiddenLayerSize)
     {
         inputlayer.Clear();
         outputLayer.Clear();
