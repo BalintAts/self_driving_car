@@ -9,7 +9,7 @@ public class CarController : MonoBehaviour
     private GeneticController geneticController;
 
     [Header("Neural network options")]
-    public static int HIDDENLAYERS = 1;
+    public static int NUMBEROFHIDDENLAYERS = 1;
     public static int HIDDENLAYERSIZE = 10;
 
     private Vector3 input;

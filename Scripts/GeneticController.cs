@@ -75,7 +75,7 @@ public class GeneticController : MonoBehaviour
         //Mutate(something); instead of mutate, we give some retard among the parents
         for (int i = 0; i < numberOfRetards; i++)
         {
-            population[populationSize - i - 1] = new NeuralNet(CarController.numberOfSensos, CarController.numberOfOutput, CarController.HIDDENLAYERS, CarController.HIDDENLAYERSIZE);   // add retards
+            population[populationSize - i - 1] = new NeuralNet(CarController.numberOfSensos, CarController.numberOfOutput, CarController.NUMBEROFHIDDENLAYERS, CarController.HIDDENLAYERSIZE);   // add retards
         }
         for (int i = 0; i < populationSize; i++)
         {
@@ -92,7 +92,7 @@ public class GeneticController : MonoBehaviour
         NeuralNet[] newPopulation = new NeuralNet[populationSize];
         for (int i = 0; i < populationSize - numberOfRetards; i++)
         {
-            NeuralNet Child = new NeuralNet(CarController.numberOfSensos, CarController.numberOfOutput, CarController.HIDDENLAYERS, CarController.HIDDENLAYERSIZE); 
+            NeuralNet Child = new NeuralNet(CarController.numberOfSensos, CarController.numberOfOutput, CarController.NUMBEROFHIDDENLAYERS, CarController.HIDDENLAYERSIZE); 
             for (int w = 0; w < Child.weightsMatrixList.Count; w++)
             {
                 int choosedWeightMatrixAndBiasIndex = populationSize - UnityEngine.Random.Range(0, numberOfBestAgentToSelect) - 1; //choosing the best of the ordered population array

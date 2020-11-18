@@ -4,7 +4,7 @@ using UnityEngine;
 using MathNet.Numerics.LinearAlgebra;
 using System;
 using Random = UnityEngine.Random;
-
+using System.Linq;
 [Serializable]
 public class NeuralNet 
 {
@@ -69,9 +69,14 @@ public class NeuralNet
     public (float,float) RunNetwork (float[] sensors)
     {
         //need to generalize for any input size
-        inputlayer[0, 0] = sensors[0];
-        inputlayer[0, 1] = sensors[1];
-        inputlayer[0, 2] = sensors[2];
+        //inputlayer[0, 0] = sensors[0];
+        //inputlayer[0, 1] = sensors[1];
+        //inputlayer[0, 2] = sensors[2];
+
+        for (int i = 0; i < inputlayer.RowCount; i++)
+        {
+            inputlayer[i,1] = sensors[i]; 
+        }
 
         inputlayer.PointwiseTanh(); //similar like the sigmoid function, but the output range is -1, 1,  not 0, 1 .
 
