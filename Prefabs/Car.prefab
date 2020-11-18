@@ -467,3 +467,5 @@ MonoBehaviour:
   targetFitness: 1000
   dumbTime: 20
   id: 0
+  explosionEffect: {fileID: 5927156560352813372, guid: 1dd44c6a6049df947b89f8a612dc0642,
+    type: 3}

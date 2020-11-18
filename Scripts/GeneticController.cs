@@ -67,7 +67,7 @@ public class GeneticController : MonoBehaviour
         Debug.Log("repopulate");
         currentGenerationIndex++;
         population = population.OrderBy(o => o.fitness).ToArray();
-        Debug.Log(population[population.Length - 1].fitness);
+        //Debug.Log(population[population.Length - 1].fitness);
         Crossover();
         //Mutate(something); instead of mutate, we give some retard among the parents
         for (int i = 0; i < numberOfRetards; i++)
