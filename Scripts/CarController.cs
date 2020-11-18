@@ -42,6 +42,8 @@ public class CarController : MonoBehaviour
 
     public int id;
 
+    public GameObject explosionEffect;
+
     private void Awake()
     {
         startPosition = transform.position;
@@ -133,6 +135,7 @@ public class CarController : MonoBehaviour
 
     private void Death()
     {
+        Explode();
         geneticController.Death(overAllFitness, id);
         Destroy(gameObject);
     }
@@ -152,5 +155,10 @@ public class CarController : MonoBehaviour
         CalculateFintess();
         //Debug.Log("id: " + id);
         
+    }
+
+    public void Explode()
+    {
+        Instantiate(explosionEffect, transform.position, transform.rotation);
     }
 }
