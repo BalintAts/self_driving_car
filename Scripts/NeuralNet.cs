@@ -34,7 +34,7 @@ public class NeuralNet
         biases.Clear();
         fitness = 0;
 
-        //adding the weight matriy between the input and first hidden layer
+        //adding the weight matrix between the input and first hidden layer
         weightsMatrixList.Add(Matrix<float>.Build.Dense(inputSize, hiddenLayerSize));
         for ( int i= 1; i <= hiddenLayerSize; i++)
         {
@@ -68,11 +68,6 @@ public class NeuralNet
 
     public (float,float) RunNetwork (float[] sensors)
     {
-        //need to generalize for any input size
-        //inputlayer[0, 0] = sensors[0];
-        //inputlayer[0, 1] = sensors[1];
-        //inputlayer[0, 2] = sensors[2];
-
         for (int i = 0; i < inputlayer.RowCount; i++)
         {
             inputlayer[i,1] = sensors[i]; 

@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System.Linq;
 
 public class CarController : MonoBehaviour
 {
@@ -28,7 +29,7 @@ public class CarController : MonoBehaviour
     public float sensorMultiplier = 0.1f;
 
     public float targetFitness = 1000;
-    public float dumbTime = 20;
+    public float dumbTime = 10;
 
     private Vector3 lastPosition;
     private float totalDistanceTravelled;
@@ -76,7 +77,7 @@ public class CarController : MonoBehaviour
 
         overAllFitness = totalDistanceTravelled * distanceMultiplier
             + avgSpeed * avgSpeedMultiplier
-            + (aSensor + bSensor + cSensor) / 3 * sensorMultiplier;
+            + sensors.Sum() / 3 * sensorMultiplier;
     
         //Check if network is bad, and reset
         if (timerSinceStart > dumbTime && overAllFitness < 40)
