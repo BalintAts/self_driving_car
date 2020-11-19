@@ -13,7 +13,7 @@ public class quick_destroyer : MonoBehaviour
         timer += Time.deltaTime;
         if ( timer >= time_to_kill)
         {
-            Debug.Log("destroy");
+            //Debug.Log("destroy");
             Destroy(gameObject);
         }
         

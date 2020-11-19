@@ -41,7 +41,7 @@ public class GeneticController : MonoBehaviour
         population = new NeuralNet[populationSize];
         for (int i = 0; i < populationSize; i++)
         {
-            NeuralNet newNet = new NeuralNet(3, 2, 10, 10);
+            NeuralNet newNet = new NeuralNet(CarController.numberOfSensos, CarController.numberOfOutput, CarController.NUMBEROFHIDDENLAYERS, CarController.HIDDENLAYERSIZE);
             population[i] = newNet;
             GameObject newCar = Instantiate(car, spawner.transform.position , spawner.transform.rotation);
             newCar.GetComponent<CarController>().net = newNet;
@@ -103,6 +103,8 @@ public class GeneticController : MonoBehaviour
                 }
             }
             newPopulation[i] = Child;
+            
+
         }
         population = newPopulation;
     }

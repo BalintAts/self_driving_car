@@ -11,7 +11,7 @@ public class CarController : MonoBehaviour
 
     [Header("Neural network options")]
     public static int NUMBEROFHIDDENLAYERS = 5;
-    public static int HIDDENLAYERSIZE = 10;
+    public static int HIDDENLAYERSIZE = 3;
 
     private Vector3 input;
     private Vector3 startPosition, startRotation;
@@ -153,7 +153,7 @@ public class CarController : MonoBehaviour
         //{
         //    Death();
         //}
-        Debug.Log("overallFitness " + overAllFitness);
+        //Debug.Log("overallFitness " + overAllFitness);
         
     }
 
