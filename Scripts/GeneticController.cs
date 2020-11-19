@@ -1,11 +1,11 @@
-﻿using System.Collections;
+﻿using Newtonsoft.Json;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using MathNet.Numerics.LinearAlgebra;
 using System.Linq;
 using UnityEditor;
 using System;
-
 public class GeneticController : MonoBehaviour
 {
     public GameObject car;
