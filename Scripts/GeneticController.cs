@@ -32,8 +32,6 @@ public class GeneticController : MonoBehaviour
 
     private void Start()
     {
-        //carController = car.GetComponent<CarController>();
-        Debug.Log(carController);
         CreatePopulation();
     }
     private void CreatePopulation()
@@ -51,7 +49,6 @@ public class GeneticController : MonoBehaviour
     
     public void Death(float fitness,  int index)
     {
-
         if (currentGenomeIndex < population.Length - 1)
         {
             population[index].fitness = fitness;
@@ -109,12 +106,11 @@ public class GeneticController : MonoBehaviour
 
     private void SaveBestNetwork()
     {
-        string networkText = ObjectJsonConverter.ReadFile("somePath");
-        //TODO:
-        //JSON deserialization
-        //if (readFitness < population[population.Length])
-        //{  //compare with the best network, which is the last element of population
-        //    ObjectJsonConverter.ExportToFile(population[population.Length]);
-        //}
+        string content = ObjectJsonConverter.ReadFile("somePath");
+        NeuralNet readNetwork = JsonConvert.DeserializeObject<NeuralNet>(content);
+        if (readNetwork.fitness < population[population.Length].fitness)
+        {  //compare with the best network, which is the last element of population
+            ObjectJsonConverter.ExportToFile(population[population.Length],"somepath");
+        }
     }
 }
