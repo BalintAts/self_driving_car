@@ -3,23 +3,49 @@ using System.Collections.Generic;
 using UnityEngine;
 using Newtonsoft.Json;
 using System.IO;
+using System;
 
-public class ObjectJsonConverter 
+public static class ObjectJsonConverter 
 {
-    public void ExportToFile(Object objectum, string path)
+    public static void ExportToFile(object objectum, string path)
     {
         string JsonText = CreateJson(objectum);
         CreateAndWriteFile(JsonText, path);
     }
 
-    private string CreateJson(Object objectum)
+    private static string CreateJson(object objectum)
     {
         return JsonConvert.SerializeObject(objectum);
     }
 
-    private void CreateAndWriteFile(string JsonText, string path)
+    private static void CreateAndWriteFile(string JsonText, string path)
     {
-        TextWriter tw = new StreamWriter(path);
+        try
+        {
+            TextWriter tw = new StreamWriter(path);
+            tw.Write(JsonText);
+            tw.Close();
+        } catch (Exception e)
+        {
+            Debug.Log("Writing file failed " + e);
+        }
+    }
+
+    public static string ReadFile(string path)
+    {
+        string content = string.Empty;
+        try
+        {
+            using (var sr = new StreamReader("TestFile.txt"))
+            {
+                content = sr.ReadToEnd();
+            }
+        }
+        catch (IOException e)
+        {
+            Debug.Log("Reading file failed " + e);
+        }
+        return content;
     }
 
 }
