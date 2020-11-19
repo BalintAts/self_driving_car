@@ -55,11 +55,10 @@ public class GeneticController : MonoBehaviour
         if (currentGenomeIndex < population.Length - 1)
         {
             population[index].fitness = fitness;
-            currentGenomeIndex++;
-            
+            currentGenomeIndex++;            
         }
         else
-        {
+        {            
             currentGenomeIndex = 0;
             Repopulate();
         }
@@ -70,6 +69,7 @@ public class GeneticController : MonoBehaviour
         Debug.Log("repopulate");
         currentGenerationIndex++;
         population = population.OrderBy(o => o.fitness).ToArray();
+        SaveBestNetwork();
         Crossover();
         //Mutate(something); instead of mutate, we give some retard among the parents
         for (int i = 0; i < numberOfRetards; i++)
@@ -103,9 +103,18 @@ public class GeneticController : MonoBehaviour
                 }
             }
             newPopulation[i] = Child;
-            
-
         }
         population = newPopulation;
+    }
+
+    private void SaveBestNetwork()
+    {
+        string networkText = ObjectJsonConverter.ReadFile("somePath");
+        //TODO:
+        //JSON deserialization
+        //if (readFitness < population[population.Length])
+        //{  //compare with the best network, which is the last element of population
+        //    ObjectJsonConverter.ExportToFile(population[population.Length]);
+        //}
     }
 }

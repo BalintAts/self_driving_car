@@ -73,6 +73,8 @@ public class CarController : MonoBehaviour
         overAllFitness = totalDistanceTravelled * distanceMultiplier
             //+ avgSpeed * avgSpeedMultiplier
             + sensors.Sum() / 3 * sensorMultiplier;
+
+        net.fitness = overAllFitness;
     
         //Check if network is bad, and reset
         if (timerSinceStart > dumbTime && overAllFitness < 40)
