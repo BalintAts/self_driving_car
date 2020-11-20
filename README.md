@@ -2,7 +2,7 @@
 
 You can try the early prototype builds here: https://drive.google.com/drive/folders/10DuHWARWZ10dBuYf1RZsIFGI23ExDmSU?usp=sharing
 
-( Message to Leonet: Here is a game I made with my friend a long time ago: https://github.com/BalintAts/CatBoxRun/tree/main )
+( Message to Leonet: Here is a mobile game I made with my friend a long time ago: https://github.com/BalintAts/CatBoxRun/tree/main )
 
 Features I currently working on:
 - Serialize the best neuaral net to a JSON file, which later can be read by the application.
