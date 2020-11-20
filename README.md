@@ -1,4 +1,4 @@
-# Self driving car in unity, with genetic algorythm
+# Self driving car in unity, with genetic algorithm
 
 You can try the early prototype builds here: https://drive.google.com/drive/folders/10DuHWARWZ10dBuYf1RZsIFGI23ExDmSU?usp=sharing
 
